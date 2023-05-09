@@ -27,24 +27,27 @@ class Spin:
     def events(self):
         feed = feedparser.parse(self.url)
         events=[]
-        for event in feed.entries:
-            title=event.title
-            summary=event.summary
-            location=event.link
-            published=event.published
-            event_dict= {
-                'title': title,
-                "summary": summary,
-                "location": location,
-                "published": published
-            }
-            events.append(self.SpinDict(event_dict))
-        return events
+        if feed.entries != 0:
+            for event in feed.entries:
+                title=event.title
+                summary=event.summary
+                location=event.link
+                published=event.published
+                event_dict= {
+                    'title': title,
+                    "summary": summary,
+                    "location": location,
+                    "published": published
+                }
+                events.append(self.SpinDict(event_dict))
+                return events
+
+
 
     @property
     def last(self):
-        return self.events()[0]
-
-
-
-
+        if self.events()==None:
+            return False
+            
+        else:
+            return self.events()[0]
